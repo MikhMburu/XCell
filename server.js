@@ -1,9 +1,13 @@
 // Import libraries
 const express = require("express")
 const fileUpload = require("express-fileupload");
+const fs = require("fs");
+const path = require("path");
+const { convert_to_json } = require("./utilities/excel");
 // Define variables
 const app = express();
 const port = process.env.PORT || 5000;
+const filePath = path.join(__dirname, "/upload");
 // Define functions and middleware
 app.use(fileUpload())
 // Create endpoints
@@ -24,7 +28,15 @@ app.post("/upload", (req, res)=>{
       return res.status(500).json({error: "Server error"})
     }
     // TODO: Process file and send data back to client
-    res.send("File uploaded")
+    fs.readdir(filePath, (err, files)=>{
+      if(err){
+        return res.status(500).json({error: "Server error"})
+      }
+      const fullPath = path.join(filePath, files[0]);
+      const result = convert_to_json(fullPath)
+      res.json(result);
+    })
+    // res.send("File uploaded");
   })
 })
 // Listen on port 5000
