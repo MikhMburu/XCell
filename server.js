@@ -3,13 +3,14 @@ const express = require("express")
 const fileUpload = require("express-fileupload");
 const fs = require("fs");
 const path = require("path");
-const { convert_to_json } = require("./utilities/excel");
+const { convert_to_json,create_file } = require("./utilities/excel");
 // Define variables
 const app = express();
 const port = process.env.PORT || 5000;
 const filePath = path.join(__dirname, "/upload");
 // Define functions and middleware
-app.use(fileUpload())
+app.use(fileUpload());
+app.use(express.json());
 // Create endpoints
 app.get("/", (req, res)=>{
   res.send("Welcome to XCell");
@@ -36,8 +37,26 @@ app.post("/upload", (req, res)=>{
       const result = convert_to_json(fullPath)
       res.json(result);
     })
-    // res.send("File uploaded");
-  })
+    })
+})
+// Create excel file from finished json
+app.post("/publish", async (req, res)=>{
+  console.log(req.body);
+  // res.send("JSON successfully sent to backend");
+  const newData = req.body.data;
+  const fname = req.body.fileName
+  const uploadPath = `${__dirname}/client/upload/${fname}.xlsx`
+  const newJSON = [];
+  newJSON.push(newData);
+  
+  try {
+    create_file(newJSON, uploadPath);
+    res.json({msg: "File successfully uploaded"})
+  } catch (err) {
+    res.status(400).json({msg: "Server error", error: err})
+  }
+  
+
 })
 // Listen on port 5000
 app.listen(port, ()=>{
