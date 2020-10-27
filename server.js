@@ -41,17 +41,16 @@ app.post("/upload", (req, res)=>{
 })
 // Create excel file from finished json
 app.post("/publish", async (req, res)=>{
-  console.log(req.body);
+  // console.log(req.body);
   // res.send("JSON successfully sent to backend");
   const newData = req.body.data;
   const fname = req.body.fileName
   const uploadPath = `${__dirname}/client/upload/${fname}.xlsx`
-  const newJSON = [];
-  newJSON.push(newData);
+  // console.log(newData);
   
   try {
-    create_file(newJSON, uploadPath);
-    res.json({msg: "File successfully uploaded"})
+    await create_file(newData, uploadPath);
+    res.json({isPublished: true})
   } catch (err) {
     res.status(400).json({msg: "Server error", error: err})
   }
