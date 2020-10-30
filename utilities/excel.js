@@ -16,7 +16,8 @@ const convert_to_json = (file) =>{
   return xlsx.utils.sheet_to_json(ws);
 };
 
-const create_file = async (newJSON, filename ) =>{
+const create_file = async (newJSON ) =>{
+  const filename = newJSON.body.title
   // Create a workbook
   const wb = xlsx.utils.book_new(); 
   // Create a Worksheet

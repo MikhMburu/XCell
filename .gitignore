@@ -1,5 +1,6 @@
 node_modules
-client
+client/node_modules
+client/upload
 upload
 test
 test.js

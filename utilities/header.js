@@ -73,6 +73,13 @@ const {size,faculty,group,dept, yearofstudy, programme,acadYear,dateofexam, titl
     h: `<span style="font-size:11pt;"><b>Date: </b></span><span style="font-size:11pt;">${dateofexam}</span>`,
     w: `Date: ${dateofexam}`
   },
+  A12: {
+    t: "s",
+    v: "#",
+    r: "<t>#</t>",
+    h: "#",
+    w: "#"
+  },
   B12: {
     t: "s",
     v: "REG. NO",
