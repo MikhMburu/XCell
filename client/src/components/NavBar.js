@@ -16,7 +16,7 @@ const NavBar = () => {
             <NavLink to="/" activeClassName="active" className="nav-link" >Home <span className="sr-only">(current)</span></NavLink>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#" tabindex="-1" data-toggle="modal" data-target="#exampleModalCenter">Summary</a>
+            <a className="nav-link" href="#" tabIndex="-1" data-toggle="modal" data-target="#exampleModalCenter">Summary</a>
           </li>
         </ul>
       </div>

@@ -6,6 +6,7 @@ const StudentTable = (props) => {
     <div class="row">
       <div class="col-md-8 mx-auto">
         <table class="table table-bordered table-hover mt-3">
+          <thead>
           <tr class="bg-danger text-white">
             <th scope="col">&nbsp</th>
             <th scope="col">REG.NO</th>
@@ -15,8 +16,10 @@ const StudentTable = (props) => {
             <th scope="col">FINAL</th>
             <th scope="col">GRADE</th>
           </tr>
-          
+          </thead>
+          <tbody>
           {props.children}
+          </tbody>
         </table>
 
       </div>

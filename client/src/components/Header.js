@@ -14,7 +14,7 @@ const Header = () => {
           <form >
             <div className="custom-file">
               <input type="file" className="custom-file-input" id="xlFile"/>
-              <label className="custom-file-label" for="xlFile">Choose file</label>
+              <label className="custom-file-label" htmlFor="xlFile">Choose file</label>
             </div>
           </form>
         </div>

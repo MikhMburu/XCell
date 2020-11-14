@@ -1,5 +1,4 @@
 import React from 'react'
-import StudentTable from './containers/StudentTable'
 
 const StudentItem = () => {
   return (

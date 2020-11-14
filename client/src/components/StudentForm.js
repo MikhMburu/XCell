@@ -1,6 +1,50 @@
-import React from 'react'
+import React,{useContext, useState, useEffect} from 'react';
+import StudentContext from "./context/studentContext";
 
 const StudentForm = () => {
+// Create context
+    const context = useContext(StudentContext);
+    const {current, addStudent, updateStudent, clearCurrent} = context
+// Create state
+    const [currentStudent, setCurrentStudent] = useState({
+      REGNO: "",
+      STUDENT_NAME: "",
+      CSWK: "",
+      EXAM: ""      
+    });
+    const {REGNO, STUDENT_NAME, CSWK, EXAM} = currentStudent
+// Use effect
+    useEffect(()=>{
+      if(current!==null){
+        setCurrentStudent(current);        
+      }
+    },[current]);
+
+// Define functions
+    const onChangeHandler = (e) =>{
+      setCurrentStudent({...currentStudent, [e.target.name]: e.target.value})
+    }
+    const onSubmitHandler = e =>{
+      e.preventDefault();   
+      // Check whether student exists (update)        
+        // YES? Update student
+        if(current!== null){
+          updateStudent(currentStudent)
+        }else{
+        // : Add new student
+        addStudent(currentStudent);          
+        }
+      
+        setCurrentStudent({
+        REGNO: "",
+        STUDENT_NAME: "",
+        CSWK: "",
+        EXAM: ""      
+      })
+        clearCurrent();
+        
+    }
+
   return (
     <div className="col-md-6">
     <div className="card">
@@ -8,18 +52,18 @@ const StudentForm = () => {
         Please Fill in The Student Details
       </div>
       <div className="card-body">
-        <form>
+        <form onSubmit={onSubmitHandler}>
          <div className="input-group">
            <div className="input-group-prepend">
-             <span className="input-group-text" id="stName"><i className="fas fa-user"></i></span>
+             <span className="input-group-text" ><i className="fas fa-user"></i></span>
            </div>
-           <input className="form-control" type="text" name="stName" placeholder="Student Name" aria-label="Student Name" aria-describedby="stName"/>
+           <input className="form-control" type="text" name="STUDENT_NAME" value={STUDENT_NAME} placeholder="Student Name" onChange={onChangeHandler}/>
          </div>
          <div className="input-group mt-2">
           <div className="input-group-prepend">
             <span className="input-group-text" id="stID">Reg. Number</span>
           </div>
-          <input className="form-control" type="text" name="stName" placeholder="Student ID" aria-label="Student ID" aria-describedby="stID"/>
+          <input className="form-control" type="text" name="REGNO" value={REGNO} placeholder="Student ID" onChange={onChangeHandler}/>
         </div>
          
          <div className="form-row math">
@@ -30,7 +74,7 @@ const StudentForm = () => {
                   CourseWork
                 </span>
               </div>
-              <input className="form-control" type="text" name="cswk"/>
+              <input className="form-control" type="text" name="CSWK" value={CSWK} onChange={onChangeHandler}/>
               <div className="input-group-append">
                 <span className="input-group-text">
                   /30
@@ -45,7 +89,7 @@ const StudentForm = () => {
                   Exam
                 </span>
               </div>
-              <input className="form-control" type="text" name="exam"/>
+              <input className="form-control" type="text" name="EXAM" value={EXAM} onChange={onChangeHandler}/>
               <div className="input-group-append">
                 <span className="input-group-text">
                   /70
