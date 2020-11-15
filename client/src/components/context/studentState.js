@@ -12,7 +12,7 @@ import {ADD_STUDENT,
      PUBLISH_FILE,
      UPLOAD_FILE, 
      FILTER_STUDENTS,
-     UPDATE_STUDENT, 
+     UPDATE_STUDENT,      
      CLEAR_FILTER} from "./types";
 
 // Create Intial State
@@ -38,7 +38,8 @@ const initialState = {
 		["A",27],["B", 33],["C", 62],["D", 14],["E",8],["ABS",20],["TOTAL", 164]
 		],
     },
-    current: null
+    current: null,
+    filtered: null
     
 }
 
@@ -88,10 +89,21 @@ const StudentState = (props) =>{
                 type: CLEAR_CURRENT
             })
         }
+        // Set Filter
+        const setFilter = (text) =>{
+            dispatch({
+                type: FILTER_STUDENTS,
+                payload: text
+            })
+        }
+        // Clear Filter
+        const clearFilter = () =>{
+            dispatch({
+                type: CLEAR_FILTER
+            })
+        }
         // Delete Student
         // Publish a record
-        // Set Filter
-        // Clear Filter
     
 
     return (<StudentContext.Provider value={{
@@ -99,10 +111,13 @@ const StudentState = (props) =>{
                 studentList: state.body,
                 analysis: state.footer,
                 current: state.current,
+                filtered: state.filtered,
                 addStudent,
                 setCurrent,
                 updateStudent,
-                clearCurrent
+                clearCurrent,
+                setFilter,
+                clearFilter
                 }       
         }>
             {props.children}

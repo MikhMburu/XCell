@@ -1,5 +1,5 @@
 // Import types
-import {ADD_STUDENT,SET_CURRENT,DELETE_STUDENT,CLEAR_CURRENT,CLEAR_FILTER, UPDATE_STUDENT} from "./types";
+import {ADD_STUDENT,SET_CURRENT,DELETE_STUDENT,CLEAR_CURRENT,CLEAR_FILTER, FILTER_STUDENTS, UPDATE_STUDENT} from "./types";
 
 
 const studentReducer = (state, action)=>{
@@ -23,6 +23,19 @@ const studentReducer = (state, action)=>{
       return {
         ...state,
         current: null
+      }
+    case FILTER_STUDENTS:
+      return {
+        ...state,
+        filtered: state.body.filter(student =>{
+          const regex = new RegExp(`${action.payload}`, "gi");
+          return student.REGNO.match(regex) || student.STUDENT_NAME.match(regex); 
+        })
+      }
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filtered: null
       }
     default:
       return state;
