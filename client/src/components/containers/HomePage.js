@@ -1,7 +1,6 @@
-import React,{Fragment, useContext, useState, useEffect} from 'react';
+import React,{Fragment} from 'react';
 import Header from "../Header";
 import StudentForm from "../StudentForm";
-import StudentCard from "../StudentCard";
 import SearchBar from "../SearchBar";
 import Body from "./Body";
 import HeaderModal from "../HeaderModal";

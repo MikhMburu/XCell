@@ -2,37 +2,24 @@
 import React, { useReducer} from "react";
 import studentReducer from "./studentReducer";
 import StudentContext from "./studentContext";
-import {computeGrade} from "../utilities/utils";
+import {computeGrade, computeAnalysis} from "../utilities/utils";
 
 // Import types
 import {ADD_STUDENT,
      DELETE_STUDENT,
      SET_CURRENT,
      CLEAR_CURRENT,
-     PUBLISH_FILE,
      UPLOAD_FILE, 
      FILTER_STUDENTS,
-     UPDATE_STUDENT,      
-     CLEAR_FILTER} from "./types";
+     UPDATE_STUDENT,
+     SET_HEADER,
+     CLEAR_FILTER,
+     SET_FOOTER} from "./types";
 
 // Create Intial State
 const initialState = {	
-    header:{
-        size: 36,
-        faculty: "SCHOOL OF EDUCATION",
-        group: "REGULAR",
-        dept: "DEPARTMENT OF BUSINESS ADMINISTRATION", 
-        yearofstudy: "4TH YEAR", 
-        programme: "BACHELOR OF EDUCATION",
-        acadYear: "2017/2018",
-        dateofexam: "MAY-AUG 2018",
-        title: "TBS 404 - INTERNATIONAL MARKETING"
-    },
-    body:
-        [
-    
-    
-        ],
+    header: null,
+    body:[],       
     footer:{
 		analysis:[
 		["A",27],["B", 33],["C", 62],["D", 14],["E",8],["ABS",20],["TOTAL", 164]
@@ -48,7 +35,13 @@ const initialState = {
 const StudentState = (props) =>{
     const [state, dispatch] = useReducer(studentReducer, initialState);
     // Actions
-        // Upload a record
+        // Upload a record and load students
+        const loadStudents = students =>{
+            dispatch({
+                type: UPLOAD_FILE,
+                payload: students
+            })
+        }
         // Add a student
         const addStudent = (student) =>{
             const {CSWK, EXAM} = student;
@@ -103,7 +96,29 @@ const StudentState = (props) =>{
             })
         }
         // Delete Student
-        // Publish a record
+        const deleteStudent = (id) => {
+            dispatch({
+                type: DELETE_STUDENT,
+                payload: id
+            })
+        }
+        // Set Header
+        const setHeaderObj = (header)=>{
+            dispatch({
+                type: SET_HEADER,
+                payload: header
+            })
+        }
+        // Set Footer
+        const setFooter = list =>{
+            
+            dispatch({
+                type: SET_FOOTER,
+                payload: computeAnalysis(list)
+            })
+        }
+        
+        
     
 
     return (<StudentContext.Provider value={{
@@ -113,11 +128,15 @@ const StudentState = (props) =>{
                 current: state.current,
                 filtered: state.filtered,
                 addStudent,
+                loadStudents,
                 setCurrent,
                 updateStudent,
                 clearCurrent,
                 setFilter,
-                clearFilter
+                clearFilter,
+                setHeaderObj,
+                deleteStudent,
+                setFooter
                 }       
         }>
             {props.children}

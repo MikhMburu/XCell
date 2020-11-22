@@ -18,3 +18,20 @@ export const computeGrade = (cswk, exam) =>{
 	}
 	return result
 }
+
+export const computeAnalysis = (list) =>{
+	// Return grades from student list
+	const studentGrades = list.map(item => item.GRADE);
+	// Declare grades
+	const grades = ["A", "B", "C", "D", "F", "ABS"];
+	let analysis = {};
+
+	grades.map(grade => {
+		return analysis[grade] = studentGrades.filter(studentMark =>studentMark===grade).length
+	})
+	analysis["TOTAL"]= studentGrades.length;
+
+	return Object.keys(analysis).map(item=>{
+		return [item, analysis[item]];
+	})
+}

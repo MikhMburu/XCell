@@ -3,11 +3,14 @@ import StudentContext from "./context/studentContext";
 
 const StudentCard = ({details}) => {
   const context = useContext(StudentContext);
-  const {setCurrent} = context
+  const {setCurrent,filtered,clearFilter} = context
   const {STUDENT_NAME, REGNO, CSWK, EXAM} = details
   // Define functions
   const onEdit = e =>{
     setCurrent(details)
+    if(filtered!==null){
+      clearFilter();
+    }
   }
   return (
     <div className="card mb-3 math shadow p-2 bg-white rounded" style={{"width": "26rem"}}>

@@ -5,13 +5,21 @@ const SearchBar = () => {
   const text = useRef("")
   // Use Context
   const context = useContext(StudentContext);
-  const {filtered, setFilter, clearFilter} = context
+  const {filtered, setFilter, clearFilter, setCurrent} = context
 
   useEffect(()=>{
     if(filtered===null){
       text.current.value=""
     }
-  });
+  },[filtered]);
+
+  useEffect(()=>{
+    
+    if(filtered!== null && filtered.length===1){
+      setCurrent(filtered[0]);
+      clearFilter();
+    }
+  },[filtered]);
 
   // Define functions
   const onChangeHandler = e =>{

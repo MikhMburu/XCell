@@ -1,52 +1,57 @@
-import React,{useContext, useState, useEffect} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import StudentContext from "./context/studentContext";
 
 const StudentForm = () => {
-// Create context
+    // Create context
     const context = useContext(StudentContext);
-    const {current, addStudent, updateStudent, clearCurrent} = context
-// Create state
+    const { current, addStudent, updateStudent, clearCurrent, studentList } = context
+    // Create state
     const [currentStudent, setCurrentStudent] = useState({
-      REGNO: "",
-      STUDENT_NAME: "",
-      CSWK: "",
-      EXAM: ""      
-    });
-    const {REGNO, STUDENT_NAME, CSWK, EXAM} = currentStudent
-// Use effect
-    useEffect(()=>{
-      if(current!==null){
-        setCurrentStudent(current);        
-      }
-    },[current]);
-
-// Define functions
-    const onChangeHandler = (e) =>{
-      setCurrentStudent({...currentStudent, [e.target.name]: e.target.value})
-    }
-    const onSubmitHandler = e =>{
-      e.preventDefault();   
-      // Check whether student exists (update)        
-        // YES? Update student
-        if(current!== null){
-          updateStudent(currentStudent)
-        }else{
-        // : Add new student
-        addStudent(currentStudent);          
-        }
-      
-        setCurrentStudent({
         REGNO: "",
         STUDENT_NAME: "",
         CSWK: "",
-        EXAM: ""      
-      })
+        EXAM: ""
+    });
+    const { REGNO, STUDENT_NAME, CSWK, EXAM } = currentStudent
+    // Use effect
+    useEffect(() => {
+        if (current !== null) {
+            setCurrentStudent(current);
+        }
+    }, [current]);
+
+    // Define functions
+    const onChangeHandler = (e) => {
+        setCurrentStudent({ ...currentStudent, [e.target.name]: e.target.value.toUpperCase() })
+    }
+    const onSubmitHandler = e => {
+        e.preventDefault();
+        // Check whether student exists (update)        
+        // YES? Update student
+        if (current !== null) {
+            updateStudent(currentStudent)
+        } else {
+            // : Add new student
+            if (studentList.filter(student => student.REGNO === currentStudent.REGNO).length !== 0) {
+                alert("Registration Number already exists")
+            } else {
+
+                addStudent(currentStudent);
+            }
+        }
+
+        setCurrentStudent({
+            REGNO: "",
+            STUDENT_NAME: "",
+            CSWK: "",
+            EXAM: ""
+        })
         clearCurrent();
-        
+
     }
 
-  return (
-    <div className="col-md-6">
+    return (
+        <div className="col-md-6">
     <div className="card">
       <div className="card-header">
         Please Fill in The Student Details
@@ -74,7 +79,7 @@ const StudentForm = () => {
                   CourseWork
                 </span>
               </div>
-              <input className="form-control" type="text" name="CSWK" value={CSWK} onChange={onChangeHandler}/>
+              <input className="form-control" type="text" name="CSWK" value={CSWK} autoFocus="autoFocus" onChange={onChangeHandler}/>
               <div className="input-group-append">
                 <span className="input-group-text">
                   /30
@@ -99,14 +104,14 @@ const StudentForm = () => {
           </div>
          </div>
          
-           <button className="btn btn-outline-primary mt-2"><i className="far fa-save"> Save Record</i>
+           <button className="btn btn-outline-primary btn-block mt-2"><i className="far fa-save"> Save Record</i>
            </button>
          
         </form>
       </div>
     </div>
   </div>
-  )
+    )
 }
 
 export default StudentForm;
