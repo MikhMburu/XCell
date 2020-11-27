@@ -35,7 +35,14 @@ app.post("/upload", (req, res)=>{
       }
       const fullPath = path.join(filePath, files[0]);
       const result = convert_to_json(fullPath)
-      res.json(result);
+      console.log(result)
+      const students = result.map(student=>{
+        student.CSWK = parseInt(student.CSWK)
+        student.EXAM = parseInt(student.EXAM)
+        return student
+      })
+
+      res.json(students);
     })
     })
 })
@@ -46,13 +53,16 @@ app.post("/publish", async (req, res)=>{
   const newData = req.body.data;
   const fname = req.body.fileName
   const uploadPath = `${__dirname}/client/upload/${fname}.xlsx`
-  // console.log(newData);
+  // console.log(JSON.stringify(newData, null, 2));
   
   try {
-    await create_file(newData, uploadPath);
+    create_file(newData);
+    
+
     res.json({isPublished: true})
   } catch (err) {
     res.status(400).json({msg: "Server error", error: err})
+    console.log(err)
   }
   
 

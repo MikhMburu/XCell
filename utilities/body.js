@@ -20,17 +20,17 @@ const createBody = (bodyObj)=>{
     }
     bcol[`B${index}`]={
       t: "s",
-      v: `${item["REG.NO"]}`,
-      r: `<t>${item["REG.NO"]}</t>`,
-      h: `${item["REG.NO"]}`,
-      w: `${item["REG.NO"]}`
+      v: `${item["REGNO"]}`,
+      r: `<t>${item["REGNO"]}</t>`,
+      h: `${item["REGNO"]}`,
+      w: `${item["REGNO"]}`
     }
     ccol[`C${index}`]={
       t: "s",
-      v: `${item["STUDENT NAME"]}`,
-      r: `<t>${item["STUDENT NAME"]}</t>`,
-      h: `${item["STUDENT NAME"]}`,
-      w: `${item["STUDENT NAME"]}`
+      v: `${item["STUDENT_NAME"]}`,
+      r: `<t>${item["STUDENT_NAME"]}</t>`,
+      h: `${item["STUDENT_NAME"]}`,
+      w: `${item["STUDENT_NAME"]}`
     }
     dcol[`D${index}`] = {
       t: `s`,

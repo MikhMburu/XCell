@@ -18,7 +18,17 @@ import {ADD_STUDENT,
 
 // Create Intial State
 const initialState = {	
-    header: null,
+    header:{
+        size: 185,
+        faculty: "SCHOOL OF EDUCATION",
+        group: "REGULAR",
+        dept: "DEPARTMENT OF BUSINESS ADMINISTRATION", 
+        yearofstudy: "4TH YEAR", 
+        programme: "BACHELOR OF EDUCATION",
+        acadYear: "2017/2018",
+        dateofexam: "MAY-AUG 2018",
+        title: "TBS 404 - INTERNATIONAL MARKETING"
+    },
     body:[],       
     footer:{
 		analysis:[
@@ -36,7 +46,19 @@ const StudentState = (props) =>{
     const [state, dispatch] = useReducer(studentReducer, initialState);
     // Actions
         // Upload a record and load students
-        const loadStudents = students =>{
+        const loadStudents = raw =>{
+            const students = raw.map(student=>{
+                let {CSWK, EXAM} = student;
+                if(CSWK===null || undefined){
+                    CSWK=0
+                }
+                if(EXAM===null || undefined){
+                    EXAM=0
+                }
+                student["FINAL"] = computeGrade(CSWK, EXAM).final;
+                student["GRADE"] = computeGrade(CSWK, EXAM).grade;
+                return student;
+            })
             dispatch({
                 type: UPLOAD_FILE,
                 payload: students
@@ -68,8 +90,9 @@ const StudentState = (props) =>{
         const setCurrent = (student) =>{
             delete student["FINAL"];
             delete student["GRADE"];
-            student["CSWK"] = student["CSWK"].toString();
-            student["EXAM"] = student["EXAM"].toString(); 
+            // After importing a list of names, CSWK and EXAM will probably be null which will generate errors
+            student["CSWK"]===null?student["CSWK"]="":student["CSWK"] = student["CSWK"].toString();
+            student["EXAM"]===null?student["EXAM"]="":student["EXAM"] = student["EXAM"].toString(); 
 
             dispatch({
                 type: SET_CURRENT,
